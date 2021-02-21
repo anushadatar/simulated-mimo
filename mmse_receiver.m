@@ -1,6 +1,6 @@
-function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2, pulseWidth)    
+function [x1_err, x2_err, y1, y2, x1, x2] = mmse_receiver(x1, x2, y1, y2, pulseWidth)    
     % Main function associated with decoding provided dataset using the
-    % zero forcing receiver.
+    % MMSE receiver.
     % Input Parameters:
     % x1         : The transmitted x1 signal.
     % x2         : The transmitted x2 singal.
@@ -16,18 +16,18 @@ function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2
     % x2         : The downsampled and cropped x2 data signal.      
 
     % Construct vector of received data.
-    received_vector = [real(y1),real(y2)];
+    received_vector = [y1,y2];
 
     % Process the training signals to get the weight vectors.
     [h11, h21] = process_x1(x1, y1, y2, pulseWidth);
     [h12, h22] = process_x2(x2, y1, y2, pulseWidth);
  
     % Assemble the channel matrix.
-    H = [h11, h12; h21, h22];
+    H = [real(h11), real(h12); real(h21), real(h22)];
  
-    % Generate weight vectors  using ZF methods.
-    x1_weight_vector = generate_weight_vector_zf(H, [1; 0]);
-    x2_weight_vector = generate_weight_vector_zf(H, [0; 1]);
+    % Generate weight vectors  using MMSE methods.
+    x1_weight_vector = generate_weight_vector_mmse(H, [1; 0]);
+    x2_weight_vector = generate_weight_vector_mmse(H, [0; 1]);
     
     % Decode the signal based on the weight vectors.
     [x1_decoded, x2_decoded] = decode(received_vector, x1_weight_vector, x2_weight_vector);

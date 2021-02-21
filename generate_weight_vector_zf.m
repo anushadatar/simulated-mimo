@@ -1,5 +1,6 @@
-function w = generate_weight_vector(H, one_hot)
-    % Generate the weight vector based on the channel.
+function w = generate_weight_vector_zf(H, one_hot)
+    % Generate the weight vector based on the channel (using the zf
+    % receiver).
     % Input Parameters:
     % H       : The aggregated channel parameter matrix.
     % one_hot : The encoding for the specific receiver, with 1; 0
