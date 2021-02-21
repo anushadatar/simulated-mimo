@@ -1,7 +1,21 @@
 function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2, pulseWidth)    
-    % TODO
-    % rx data is the ys, tx data is the xs, downsampled 
+    % Main function associated with decoding provided dataset using the
+    % zero forcing receiver.
+    % Input Parameters:
+    % x1         : The transmitted x1 signal.
+    % x2         : The transmitted x2 singal.
+    % y1         : The received y1 signal.
+    % y2         : The received y2 signal.
+    % pulseWidth : The width of the pulse for each data bit.
+    % Returns:    
+    % x1_err     : The error associated with the x1 signal.
+    % x2_err     : The error associated with the x2 signal.
+    % y1         : The downsampled and cropped y1 data signal.
+    % y2         : The downsampled and cropped y2 data signal.
+    % x1         : The downsampled and cropped x1 data signal.
+    % x2         : The downsampled and cropped x2 data signal.      
 
+    % Construct vector of received data.
     received_vector = [y1,y2];
 
     % Process the training signals to get the weight vectors.
@@ -11,12 +25,14 @@ function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2
     % Assemble the channel matrix.
     H = [real(h11), real(h12); real(h21), real(h22)];
  
-    % the 
+    % Generate weight vectors  using ZF methods.
     x1_weight_vector = generate_weight_vector(H, [1; 0]);
     x2_weight_vector = generate_weight_vector(H, [0; 1]);
     
+    % Decode the signal based on the weight vectors.
     [x1_decoded, x2_decoded] = decode(received_vector, x1_weight_vector, x2_weight_vector);
     
+    % Compute overall error.
     [x1_err, x1, y1] = compute_error(x1_decoded, x1);
     [x2_err, x2, y2] = compute_error(x2_decoded, x2);
 
