@@ -8,6 +8,5 @@ function w = generate_weight_vector(H, one_hot)
     % Returns:
     % w       : Weight vector associated with overall channel
     %           characterization.
-    
     w = inv(H')*one_hot;
 end
