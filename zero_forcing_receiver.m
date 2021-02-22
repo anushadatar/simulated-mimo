@@ -14,9 +14,14 @@ function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2
     % y2         : The downsampled and cropped y2 data signal.
     % x1         : The downsampled and cropped x1 data signal.
     % x2         : The downsampled and cropped x2 data signal.      
-
+    
+    y1 = real(y1);
+    y2 = real(y2);
+    
+    [y1, y2] = correct_lag(x1, x2, y1, y2);
+    
     % Construct vector of received data.
-    received_vector = [real(y1),real(y2)];
+    received_vector = [y1, y2];
 
     % Process the training signals to get the weight vectors.
     [h11, h21] = process_x1(x1, y1, y2, pulseWidth);
@@ -30,7 +35,7 @@ function [x1_err, x2_err, y1, y2, x1, x2] = zero_forcing_receiver(x1, x2, y1, y2
     x2_weight_vector = generate_weight_vector_zf(H, [0; 1]);
     
     % Decode the signal based on the weight vectors.
-    [x1_decoded, x2_decoded] = decode(received_vector, x1_weight_vector, x2_weight_vector);
+    [x1_decoded, x2_decoded] = decode_zero_forcing(received_vector, x1_weight_vector, x2_weight_vector);
     
     % Compute overall error.
     [x1_err, x1, y1] = compute_error(x1_decoded, x1);
