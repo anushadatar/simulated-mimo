@@ -27,5 +27,5 @@ function [err, bits_x, bits_y] = compute_error(decoded_signal, original_signal)
     end
     
     % Compute percent difference.
-    err = sum((bits_x ~= bits_y)) / length(tx_data);
+    err = sum((bits_x ~= bits_y)) / length(bits_x);
 end
