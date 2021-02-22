@@ -14,26 +14,29 @@ function [x1_err, x2_err, y1, y2, x1, x2] = mmse_receiver(x1, x2, y1, y2, pulseW
     % y2         : The downsampled and cropped y2 data signal.
     % x1         : The downsampled and cropped x1 data signal.
     % x2         : The downsampled and cropped x2 data signal.      
-
+    
+    y1 = real(y1);
+    y2 = real(y2);
+    
+    [y1, y2] = correct_lag(x1, x2, y1, y2);
+    
     % Construct vector of received data.
-    received_vector = [y1,y2];
-
+    received_vector = [y1, y2];
+    
     % Process the training signals to get the weight vectors.
     [h11, h21] = process_x1(x1, y1, y2, pulseWidth);
     [h12, h22] = process_x2(x2, y1, y2, pulseWidth);
  
     % Assemble the channel matrix.
-    H = [real(h11), real(h12); real(h21), real(h22)];
+    H = [h11, h12; h21, h22];
  
     % Generate weight vectors  using MMSE methods.
-    x1_weight_vector = generate_weight_vector_mmse(H, [1; 0]);
-    x2_weight_vector = generate_weight_vector_mmse(H, [0; 1]);
+    [x1_weight_vector, x2_weight_vector] = generate_weight_vector_mmse(H);
     
     % Decode the signal based on the weight vectors.
-    [x1_decoded, x2_decoded] = decode(received_vector, x1_weight_vector, x2_weight_vector);
+    [x1_decoded, x2_decoded] = decode_mmse(received_vector, x1_weight_vector, x2_weight_vector);
     
     % Compute overall error.
     [x1_err, x1, y1] = compute_error(x1_decoded, x1);
     [x2_err, x2, y2] = compute_error(x2_decoded, x2);
-
 end
