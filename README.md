@@ -4,7 +4,8 @@
 Olin College SP21 Principles of Wireless Communications Lab 2a.
 # Summary
 This repository contains code and documentation associated with
-decoding signals sent and received by a MIMO systme with 4 antennas.
+decoding signals sent and received by a MIMO system with 2 transmitting antennas
+and two receiving antennas.
 We decoded the data provided in class (included in the file [2User2Antenna.mat](https://github.com/anushadatar/simulated-mimo/blob/main/2User2AntennaBS.mat))
 using both a zero-forcing receiver and an MMSE receiver.
 
