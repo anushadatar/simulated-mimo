@@ -15,5 +15,5 @@ The main function associated with decoding the data with the MMSE
 receiver is [mmse_receiver.m](https://github.com/anushadatar/simulated-mimo/blob/main/mmse_receiver.m).
 Both of these functions call many modular functions included in this directory.
 
-Our [final report](https://github.com/anushadatar/usrp-qpsk/blob/main/docs/report.pdf) includes more details about our implementation
+Our [final report](https://github.com/anushadatar/simulated-mimo/blob/main/docs/report.pdf) includes more details about our implementation
 and additional theoretical background.
